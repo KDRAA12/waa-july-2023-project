@@ -1,4 +1,4 @@
-package com.alumni.composite_ids;
+package com.alumni.entity.composite_ids;
 
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
