@@ -2,11 +2,8 @@ package com.alumni.controllers;
 
 
 import com.alumni.Service.FacultyService;
-import com.alumni.Service.StudentService;
 import com.alumni.dtos.request.FacultyRequestDto;
-import com.alumni.dtos.request.StudentRequestDto;
 import com.alumni.dtos.response.FacultyResponseDTO;
-import com.alumni.dtos.response.StudentResponseDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

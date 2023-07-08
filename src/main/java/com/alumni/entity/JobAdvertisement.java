@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -23,6 +24,7 @@ public class JobAdvertisement {
 
     private String attachments;
     private String postedBy;
+    private Date postedAt;
 
     @ManyToMany
     private List<Tag> tags= new ArrayList<>();
