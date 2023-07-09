@@ -28,4 +28,7 @@ public class JobAdvertisement {
 
     @ManyToMany
     private List<Tag> tags= new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobAdvertisement")
+    private List<JobApplication> jobApplications ;
 }

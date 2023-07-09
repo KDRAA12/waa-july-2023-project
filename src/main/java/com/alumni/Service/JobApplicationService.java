@@ -1,20 +1,17 @@
 package com.alumni.Service;
-
-import com.alumni.dtos.request.StudentRequestDto;
-import com.alumni.dtos.response.StudentResponseDTO;
+import com.alumni.entity.JobApplication;
 
 import java.util.List;
 
 public interface JobApplicationService  {
-    List<StudentResponseDTO> getList(int page, int size, Long jobId, Long studentId);
+    List<JobApplication> getList(int page, int size, Long jobId, Long studentId);
 
-    void create(StudentRequestDto requestDto);
+    void create(JobApplication record);
 
-    StudentResponseDTO findById(Long id);
+    JobApplication findById(Long id);
 
-    void put(Long id, StudentRequestDto requestDto);
+    void put(Long id, JobApplication record);
 
     void deleteById(Long id);
 
-    void changePassword(Long id, String password);
 }

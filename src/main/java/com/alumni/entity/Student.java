@@ -28,6 +28,9 @@ public class Student {
     @JoinColumn(name = "attachment_id")
     private Attachment cv;
 
+    @OneToMany(mappedBy = "student")
+    private List<JobApplication> jobApplications ;
+
 
     @Override
     public boolean equals(Object o) {
