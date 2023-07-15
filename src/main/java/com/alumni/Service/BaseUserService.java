@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 public interface BaseUserService {
 
+    public BaseUser save(BaseUser user) ;
     BaseUser save(String email, String password, List<Role> roles);
 
     BaseUser getUserByEmailAndPassword(String name, String password) throws NotFoundException;

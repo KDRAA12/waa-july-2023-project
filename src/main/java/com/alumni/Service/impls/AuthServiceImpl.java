@@ -34,7 +34,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponseDTO signup(SignupRequestDTO signupRequestDTO) {
-        BaseUser baseUser = BaseUserService.save(signupRequestDTO.getEmail(), signupRequestDTO.getPassword(), new ArrayList<>());
+        BaseUser baseUser = modelMapper.map(signupRequestDTO, BaseUser.class);
+        baseUser = BaseUserService.save(baseUser);
         String token = jwtService.generateToken(baseUser);
         LoginResponseDTO loginResponseDTO = modelMapper.map(baseUser, LoginResponseDTO.class);
         loginResponseDTO.setToken(token);
@@ -43,18 +44,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) throws NotFoundException {
-        System.out.println("test");
-        System.out.println(loginRequestDTO.getPassword());
-//        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-//                loginRequestDTO.getEmail(),
-//                loginRequestDTO.getPassword()
-//        ));
-
-        System.out.println(bCryptPasswordEncoder.encode(loginRequestDTO.getPassword()));
-//
-//        BaseUser baseUser = BaseUserService.getUserByEmailAndPassword(loginRequestDTO.getEmail(),
-//                bCryptPasswordEncoder.encode(loginRequestDTO.getPassword()));
-//        System.out.println(baseUser);
         Optional<BaseUser> baseUser = baseUserRepository.findByEmail(loginRequestDTO.getEmail());
         baseUser.orElseThrow(() -> new NotFoundException("User not found"));
         if(!bCryptPasswordEncoder.matches(loginRequestDTO.getPassword(), baseUser.get().getPassword()))
