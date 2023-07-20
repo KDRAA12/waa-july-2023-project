@@ -13,6 +13,11 @@ public class JobAdvertisementRequestDto {
     private String state;
     private String city;
     private String company;
-    private List<TagRequestDTO> tags= new ArrayList<>();
+
+    private String title;
+    private String description;
+
+
+    private List<Long> tags= new ArrayList<>();
 
 }

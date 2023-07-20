@@ -12,8 +12,11 @@ public class StudentRequestDto {
     private long id;
     private String state;
     private String city;
+
     private String major;
+
     private String name;
+
     private String cvUrl;
     private List<JobExperience> jobExperiences;
     private String email;

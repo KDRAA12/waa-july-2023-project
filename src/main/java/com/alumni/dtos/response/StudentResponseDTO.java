@@ -11,7 +11,7 @@ public class StudentResponseDTO {
     private String city;
     private String major;
     private String name;
-    private String cvUrl;
+//    private String cvUrl;
     private List<JobExperience> jobExperiences;
 
 }
