@@ -28,6 +28,13 @@ public class BaseUser implements UserDetails {
     @Column(unique=true)
     private String email;
     private String password;
+
+    @ManyToOne()
+    @JoinColumn(name = "state_id")
+    private State state;
+    @ManyToOne()
+    @JoinColumn(name = "city_id")
+    private City city;
     private boolean isActive;
     private String resetToken;
     private int failedLoginAttempts;

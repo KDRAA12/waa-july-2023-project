@@ -24,17 +24,18 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(BaseUser baseUser){
+    public String generateToken(BaseUser baseUser) {
         return generateToken(new HashMap<>(), baseUser);
     }
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
-        return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return (!isTokenExpired(token) && userName.equals(userDetails.getUsername()));
     }
 
-    private boolean isTokenExpired(String token){
+    @Override
+    public boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
 
@@ -46,7 +47,8 @@ public class JwtServiceImpl implements JwtService {
                 .signWith(SignatureAlgorithm.HS256, getSigningKey())
                 .compact();
     }
-    private String getSigningKey(){
+
+    private String getSigningKey() {
         return SECRET_KEY;
     }
 

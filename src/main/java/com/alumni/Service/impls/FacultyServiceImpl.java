@@ -8,9 +8,12 @@ import com.alumni.dtos.response.FacultyResponseDTO;
 import com.alumni.entity.BaseUser;
 import com.alumni.entity.Faculty;
 import com.alumni.entity.Role;
+import com.alumni.entity.State;
 import com.alumni.entity.enums.RoleEnum;
+import com.alumni.repository.CityRepository;
 import com.alumni.repository.FacultyRepository;
 import com.alumni.repository.RoleRepository;
+import com.alumni.repository.StateRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
@@ -29,25 +32,25 @@ public class FacultyServiceImpl implements FacultyService {
     private final FacultyRepository repository;
 
     private final RoleRepository roleRepository;
-
     private final BaseUserService baseUserService;
 
     @Override
     public List<FacultyResponseDTO> getList(int page, int size) {
 
-    return new ArrayList<FacultyResponseDTO>();
-//        return repository.findAllByNameContainsIgnoreCaseOrderByIdDesc(
-//                        PageRequest.of(page, size)
-//                )
-//                .stream().map((Faculty faculty) -> modelMapper.map(faculty, FacultyResponseDTO.class)).collect(Collectors.toList());
+//    return new ArrayList<FacultyResponseDTO>();
+
+        return repository.findAll(
+                        PageRequest.of(page, size)
+                )
+                .stream().map((Faculty faculty) -> modelMapper.map(faculty, FacultyResponseDTO.class)).collect(Collectors.toList());
     }
 
     @Override
     public void create(FacultyRequestDto requestDto) {
         Role facultyRole = roleRepository.findByName(RoleEnum.FACULTY.toString());
+
         Faculty entity = modelMapper.map(requestDto, Faculty.class);
         BaseUser user = modelMapper.map(requestDto, BaseUser.class);
-        System.out.println(user.toString());
         entity.setUser(baseUserService.save(user, List.of(facultyRole)));
         repository.save(entity);
 
@@ -60,6 +63,7 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     private Faculty getByID(Long id) {
+        System.out.println("getByID" + repository.findById(id).isPresent());
         return repository.findById(id).orElseThrow(() -> new NotFoundException("Faculty with ID: " + id + " was not found"));
     }
 

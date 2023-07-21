@@ -1,5 +1,8 @@
 package com.alumni.dtos.response;
+import com.alumni.entity.BaseUser;
+import com.alumni.entity.City;
 import com.alumni.entity.JobExperience;
+import com.alumni.entity.State;
 import lombok.Data;
 
 import java.util.List;
@@ -7,11 +10,7 @@ import java.util.List;
 @Data
 public class FacultyResponseDTO {
     private long id;
-    private String state;
-    private String city;
-    private String major;
-    private String name;
-    private String cvUrl;
-    private List<JobExperience> jobExperiences;
+    private BaseUser baseUser;
+
 
 }

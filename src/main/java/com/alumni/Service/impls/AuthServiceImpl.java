@@ -34,7 +34,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponseDTO signup(SignupRequestDTO signupRequestDTO) {
-        BaseUser baseUser = modelMapper.map(signupRequestDTO, BaseUser.class);
+        BaseUser baseUser = new BaseUser();
+        baseUser.setFirstName(signupRequestDTO.getFirstName());
+        baseUser.setLastName(signupRequestDTO.getLastName());
+        baseUser.setEmail(signupRequestDTO.getEmail());
+        baseUser.setPassword(signupRequestDTO.getPassword());
+//        BaseUser baseUser = modelMapper.map(signupRequestDTO, BaseUser.class);
         baseUser = BaseUserService.save(baseUser);
         String token = jwtService.generateToken(baseUser);
         LoginResponseDTO loginResponseDTO = modelMapper.map(baseUser, LoginResponseDTO.class);

@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/faculties")
 @AllArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins="*")
 public class FacultyController {
     private final FacultyService service;
 
@@ -23,7 +23,6 @@ public class FacultyController {
             @RequestParam(required = false,defaultValue = "") String  name
             ){
         return service.getList(page,size);
-
     }
 
 
@@ -34,6 +33,7 @@ public class FacultyController {
 
     @GetMapping("/{id}")
     public FacultyResponseDTO findById(@PathVariable(name = "id") Long id){
+        System.out.println("findById"+ service.findById(id));
         return service.findById(id);
     }
 
