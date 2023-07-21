@@ -20,7 +20,7 @@ public class AttachmentServiceimpl implements AttachmentService {
     @Autowired
     public AttachmentRepository attachmentRepository;
 
-    private final String STORAGE_PATH = "/home/rimon/my-files/study/WAA/project/waa-july-2023-project/storage/";
+    private final String STORAGE_PATH = "/Users/poweruser/Desktop/waa-project/storage/";
     private final String API_HOST = "http://localhost:8080/api/v1/attachments";
 
 
