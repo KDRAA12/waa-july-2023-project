@@ -17,6 +17,7 @@ import java.io.IOException;
 @RestController()
 @RequestMapping("/api/v1/attachments")
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class uploadsController {
 
     @Autowired

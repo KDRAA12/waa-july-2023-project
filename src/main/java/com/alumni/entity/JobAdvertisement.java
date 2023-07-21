@@ -21,9 +21,15 @@ public class JobAdvertisement {
     private String city;
     private String company;
 
+    private String title;
+
+
+@Lob
+    private String description;
+
     private String attachments;
     private String postedBy;
-    private Date postedAt;
+    private Date postedAt=new Date();
 
     @ManyToMany
     private List<Tag> tags = new ArrayList<>();

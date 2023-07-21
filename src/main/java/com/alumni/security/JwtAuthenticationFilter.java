@@ -2,16 +2,21 @@ package com.alumni.security;
 
 import com.alumni.Service.BaseUserService;
 import com.alumni.Service.JwtService;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,33 +31,58 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtService jwtService;
     @Autowired
     private BaseUserService baseUserService;
+    private final org.springframework.security.core.userdetails.UserDetailsService UserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        final String authHeader = request.getHeader("Authorization");
-        final String jwt;
         final String userEmail;
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        String jwt = extractTokenFromRequest(request);
+        if (jwt == null) {
             filterChain.doFilter(request, response);
             return;
         }
-        jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUserName(jwt);
 
-        if (userEmail == null || SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = baseUserService.getByEmail(userEmail);
-            System.out .println("User " + userDetails.getUsername()+ "");
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                SecurityContext context = SecurityContextHolder.createEmptyContext();
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                context.setAuthentication(authToken);
-                SecurityContextHolder.setContext(context);
+        try
+        {
+            userEmail = jwtService.extractUserName(jwt);
+            if (userEmail == null || SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = this.UserDetailsService.loadUserByUsername(userEmail);
+
+                if (jwtService.isTokenValid(jwt, userDetails)) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+                else{
+                    System.out.println("error");
+                }
             }
+            filterChain.doFilter(request, response);
+        }catch (ExpiredJwtException e){
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid JWT token");
+        }catch (Exception e){
+            System.out.println("error" + e);
+
+//            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid JWT token");
         }
-        filterChain.doFilter(request, response);
+
+
+    }
+
+
+    public String extractTokenFromRequest(HttpServletRequest request) {
+
+        final String authorizationHeader = request.getHeader("Authorization");
+        System.out.println("authorizationHeader =" +authorizationHeader);
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            var token = authorizationHeader.substring(7);
+            return token;
+        }
+        return null;
     }
 
 }

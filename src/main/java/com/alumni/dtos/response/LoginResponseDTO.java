@@ -17,6 +17,8 @@ public class LoginResponseDTO {
 
     private long id;
     private String email;
+    private String firstName;
+    private String lastName;
     private boolean isActive;
     private int failedLoginAttempts;
     private List<Role> roles;

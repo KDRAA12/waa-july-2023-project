@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/job-advertisements")
+@RequestMapping("/api/v1/job-advertisements")
 @AllArgsConstructor
+@CrossOrigin
 public class JobAdvertisementController {
     private final JobAdvertisementService service;
 

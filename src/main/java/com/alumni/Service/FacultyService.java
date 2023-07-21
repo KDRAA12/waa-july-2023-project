@@ -6,7 +6,7 @@ import com.alumni.dtos.response.FacultyResponseDTO;
 import java.util.List;
 
 public interface FacultyService {
-    List<FacultyResponseDTO> getList(int page, int size, String name);
+    List<FacultyResponseDTO> getList(int page, int size);
 
     void create(FacultyRequestDto requestDto);
 

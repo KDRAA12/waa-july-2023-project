@@ -24,13 +24,23 @@ public class BaseUser implements UserDetails {
     private long id;
     private String firstName;
     private String lastName;
+
+    @Column(unique=true)
     private String email;
     private String password;
+
+    @ManyToOne()
+    @JoinColumn(name = "state_id")
+    private State state;
+    @ManyToOne()
+    @JoinColumn(name = "city_id")
+    private City city;
     private boolean isActive;
     private String resetToken;
     private int failedLoginAttempts;
     private LocalDateTime activeAfter;
-    @ManyToMany
+    
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -65,5 +75,10 @@ public class BaseUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive;
+    }
+
+    @Override
+    public String toString() {
+        return "firstName=  " + firstName + ", lastName= " + lastName + ", email= " + email + ", password= " + password +  ", roles= " + roles;
     }
 }

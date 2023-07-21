@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 public class JwtServiceImpl implements JwtService {
     public static final String SECRET_KEY = "nUz6Xa4gewX07SQm7bCigUmfQ0KkeuJV1234567890agdfh";
-    private final long ACCESS_TOKEN_EXPIRATION = 900000; // 15 * 60 * 1000
+    private final long ACCESS_TOKEN_EXPIRATION = 1900000; // 15 * 60 * 1000
 
     @Override
     public String extractUserName(String token) {
@@ -24,17 +24,18 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(BaseUser baseUser){
+    public String generateToken(BaseUser baseUser) {
         return generateToken(new HashMap<>(), baseUser);
     }
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
-        return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        return (!isTokenExpired(token) && userName.equals(userDetails.getUsername()));
     }
 
-    private boolean isTokenExpired(String token){
+    @Override
+    public boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
 
@@ -46,7 +47,8 @@ public class JwtServiceImpl implements JwtService {
                 .signWith(SignatureAlgorithm.HS256, getSigningKey())
                 .compact();
     }
-    private String getSigningKey(){
+
+    private String getSigningKey() {
         return SECRET_KEY;
     }
 

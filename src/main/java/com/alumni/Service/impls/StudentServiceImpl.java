@@ -60,8 +60,14 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void create(StudentRequestDto requestDto) {
+        System.out.println("yess1");
+
         Role studentRole = roleRepository.findByName(RoleEnum.STUDENT.toString());
         Student entity= modelMapper.map(requestDto,Student.class);
+        System.out.println("yess");
+
+        System.out.println("yess"+studentRole.getId());
+
         BaseUser baseUser= new BaseUser();
         baseUser.setEmail(requestDto.getEmail());
         baseUser.setPassword(bCryptPasswordEncoder.encode(requestDto.getEmail()));
