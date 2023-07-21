@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 public class JwtServiceImpl implements JwtService {
     public static final String SECRET_KEY = "nUz6Xa4gewX07SQm7bCigUmfQ0KkeuJV1234567890agdfh";
-    private final long ACCESS_TOKEN_EXPIRATION = 900000; // 15 * 60 * 1000
+    private final long ACCESS_TOKEN_EXPIRATION = 1900000; // 15 * 60 * 1000
 
     @Override
     public String extractUserName(String token) {
