@@ -4,10 +4,7 @@ import com.alumni.Exceptions.NotFoundException;
 import com.alumni.Service.StudentService;
 import com.alumni.dtos.response.StudentResponseDTO;
 import com.alumni.dtos.request.StudentRequestDto;
-import com.alumni.entity.BaseUser;
-import com.alumni.entity.Comment;
-import com.alumni.entity.Role;
-import com.alumni.entity.Student;
+import com.alumni.entity.*;
 import com.alumni.entity.enums.RoleEnum;
 import com.alumni.repository.*;
 import com.alumni.utils.RepositoryUtils;
@@ -43,14 +40,18 @@ public class StudentServiceImpl implements StudentService {
 
     private final BaseUserRepository baseUserRepository;
 
+private final  StateRepository stateRepository;
+private final CityRepository cityRepository;
 
 
     @Override
-    public List<StudentResponseDTO> getList(int page, int size, String state, String city, String major, String name) {
+    public List<StudentResponseDTO> getList(int page, int size, Long stateId, Long cityId, String major, String name) {
 
+        State state=stateRepository.findById(stateId).orElseThrow(()->new NotFoundException("State not found"));
+        City city=cityRepository.findById(cityId).orElseThrow(()->new NotFoundException("State not found"));
 
-    return repository.getList(RepositoryUtils.searchFormatter(state),
-            RepositoryUtils.searchFormatter(city),
+    return repository.getList(RepositoryUtils.searchFormatter(state.getName()),
+            RepositoryUtils.searchFormatter(city.getName()),
             RepositoryUtils.searchFormatter(major),
             RepositoryUtils.searchFormatter(name),
                     PageRequest.of(page,size)
