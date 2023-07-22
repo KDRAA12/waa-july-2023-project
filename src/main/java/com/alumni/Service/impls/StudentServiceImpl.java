@@ -60,23 +60,28 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void create(StudentRequestDto requestDto) {
-        System.out.println("yess1");
 
         Role studentRole = roleRepository.findByName(RoleEnum.STUDENT.toString());
         Student entity= modelMapper.map(requestDto,Student.class);
-        System.out.println("yess");
 
-        System.out.println("yess"+studentRole.getId());
+        System.out.println(requestDto);
+        BaseUser user = new BaseUser();
+        user.setFirstName(requestDto.getFirstName());
+        user.setLastName(requestDto.getLastName());
 
-        BaseUser baseUser= new BaseUser();
-        baseUser.setEmail(requestDto.getEmail());
-        baseUser.setPassword(bCryptPasswordEncoder.encode(requestDto.getEmail()));
-        baseUser.setActiveAfter(LocalDateTime.now());
-        baseUser.setActive(true);
-        baseUser.setFailedLoginAttempts(0);
-        baseUser.setRoles(List.of(studentRole));
-        entity.setUser(baseUserRepository.save(baseUser));
+        user.setCity(requestDto.getCity());
+        user.setState(requestDto.getState());
+        user.setEmail(requestDto.getEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(requestDto.getPassword()));
+        user.setActiveAfter(LocalDateTime.now());
+        user.setActive(true);
+        user.setFailedLoginAttempts(0);
+        user.setRoles(List.of(studentRole));
+        entity.setUser(baseUserRepository.save(user));
         repository.save(entity);
+
+
+
     }
 
     @Override
@@ -105,7 +110,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void changePassword(Long id, String password) {
-        
+        Student student=repository.findById(id).orElseThrow(()->new RuntimeException("not found"));
+        student.getUser().setPassword(bCryptPasswordEncoder.encode(password));
+        repository.save(student);
     }
 
     @Override
@@ -115,12 +122,27 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void addComment(Long id, Comment comment) {
+        Student s =new Student();
+        s.setId(id);
+        comment.setStudent(s);
         commentRepository.save(comment);
     }
 
     @Override
     public List<Comment> getComments(Long id) {
         return commentRepository.findAllByStudentId(id);
+    }
+
+    @Override
+    public void editComment(Long commentId, Comment comment) {
+        comment.setId(commentId);
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public void deleteCommentById(Long commentId) {
+        commentRepository.deleteById(commentId);
+
     }
 
 

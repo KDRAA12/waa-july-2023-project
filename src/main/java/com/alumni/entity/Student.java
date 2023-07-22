@@ -13,11 +13,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    private String state;
-    private String city;
     private String major;
-    private String name;
     private String cvUrl;
     @OneToMany(cascade = CascadeType.ALL)
     private List<JobExperience> jobExperiences;
@@ -36,14 +32,13 @@ public class Student {
             return true;
         if (!(o instanceof Student student))
             return false;
-        return id == student.id && Objects.equals(state, student.state) && Objects.equals(city, student.city)
-                && Objects.equals(major, student.major) && Objects.equals(name, student.name)
+        return id == student.id
                 && Objects.equals(cvUrl, student.cvUrl) && Objects.equals(jobExperiences, student.jobExperiences);
 //                && Objects.equals(user, student.user) && Objects.equals(cv, student.cv);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, state, city, major, name, cvUrl, jobExperiences, user);
+        return Objects.hash(id,  major, cvUrl, jobExperiences, user);
     }
 }

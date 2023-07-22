@@ -26,4 +26,8 @@ public interface StudentService {
     void addComment(Long id, Comment comment);
 
     List<Comment> getComments(Long id);
+
+    void editComment(Long commentId, Comment comment);
+
+    void deleteCommentById(Long commentId);
 }
