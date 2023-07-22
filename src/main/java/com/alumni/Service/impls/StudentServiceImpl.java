@@ -110,7 +110,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void changePassword(Long id, String password) {
-        
+        Student student=repository.findById(id).orElseThrow(()->new RuntimeException("not found"));
+        student.getUser().setPassword(bCryptPasswordEncoder.encode(password));
+        repository.save(student);
     }
 
     @Override
@@ -120,12 +122,27 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void addComment(Long id, Comment comment) {
+        Student s =new Student();
+        s.setId(id);
+        comment.setStudent(s);
         commentRepository.save(comment);
     }
 
     @Override
     public List<Comment> getComments(Long id) {
         return commentRepository.findAllByStudentId(id);
+    }
+
+    @Override
+    public void editComment(Long commentId, Comment comment) {
+        comment.setId(commentId);
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public void deleteCommentById(Long commentId) {
+        commentRepository.deleteById(commentId);
+
     }
 
 

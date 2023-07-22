@@ -72,5 +72,16 @@ public class StudentController {
         service.addComment(id,comment);
     }
 
+    @PostMapping("/{id}/comments/{commentId}")
+    public void editComment(@PathVariable(name = "id") Long id,@PathVariable(name = "id") Long commentId,@RequestBody Comment comment){
+
+        service.editComment(commentId,comment);
+    }
+
+    @DeleteMapping("/{id}/comments/{commentId}")
+    public void editComment(@PathVariable(name = "id") Long id,@PathVariable(name = "id") Long commentId){
+
+        service.deleteCommentById(commentId);
+    }
 
 }
