@@ -9,7 +9,7 @@ import com.alumni.entity.Student;
 import java.util.List;
 
 public interface StudentService {
-    List<StudentResponseDTO> getList(int page, int size, Long state, Long city, String major, String name);
+    List<StudentResponseDTO> getList(int page, int size, String state, String city, String major, String name);
 
     void create(StudentRequestDto requestDto);
 
