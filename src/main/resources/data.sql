@@ -12,7 +12,7 @@ INSERT INTO role (id, name) VALUES (1, 'admin');
 INSERT INTO role (id, name) VALUES (2, 'faculty');
 INSERT INTO role (id, name) VALUES (3, 'student');
 
-INSERT INTO tag (id, label, color) VALUES
+INSERT INTO tag (id, value) VALUES
                                                  (1, 'Information Technology (IT)'),
                                                  (2, 'Marketing and Advertising'),
                                                  (3, 'Finance and Accounting'),
@@ -23,6 +23,8 @@ INSERT INTO tag (id, label, color) VALUES
                                                  (8, 'Engineering and Technology'),
                                                  (9, 'Creative Arts and Design'),
                                                  (10, 'Customer Service and Support');
+SELECT SETVAL('tag_seq',10);
+
 
 SELECT SETVAL('role_seq',3);
 

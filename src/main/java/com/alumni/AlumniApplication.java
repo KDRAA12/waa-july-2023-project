@@ -19,12 +19,10 @@ public class AlumniApplication {
 	RoleRepository roleRepository;
 
 	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder(){
-        String seed="w7A&e5LpUs8FxEv2FaBR";
-        return new BCryptPasswordEncoder(10, new SecureRandom(seed.getBytes(StandardCharsets.UTF_8)));
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		String seed = "w7A&e5LpUs8FxEv2FaBR";
+		return new BCryptPasswordEncoder(10, new SecureRandom(seed.getBytes(StandardCharsets.UTF_8)));
 	}
-
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(AlumniApplication.class, args);

@@ -63,7 +63,6 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     private Faculty getByID(Long id) {
-        System.out.println("getByID" + repository.findById(id).isPresent());
         return repository.findById(id).orElseThrow(() -> new NotFoundException("Faculty with ID: " + id + " was not found"));
     }
 

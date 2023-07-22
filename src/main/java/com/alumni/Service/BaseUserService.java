@@ -18,7 +18,9 @@ public interface BaseUserService {
 
     public BaseUser update(Long id, BaseUseRequestrDTO user);
 
-    BaseUser save(String email, String password, List<Role> roles);
+    public BaseUser update(BaseUser user);
+
+        BaseUser save(String email, String password, List<Role> roles);
 
     BaseUser getUserByEmailAndPassword(String name, String password) throws NotFoundException;
 

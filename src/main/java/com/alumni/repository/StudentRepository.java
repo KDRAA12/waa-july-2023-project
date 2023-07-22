@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentRepository extends JpaRepository<Student,Long> {
 //    @Query(value = "SELECT * FROM student WHERE (1=1 or :cityID=stateID ) AND (1=1 ) AND ('' = :major OR major LIKE %:major%) AND ('' = :name OR name LIKE %:name%)", nativeQuery = true)
@@ -21,4 +20,17 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 
 
     List<Student> findAllByUserStateNameContainsIgnoreCaseAndUserCityNameContainsIgnoreCaseAndUserFirstNameContainsIgnoreCaseAndMajorContainsIgnoreCase(String state, String city, String major, String name);
+    
+  @Query(value = "select  count(student.id), state.name from student \n" +
+            "inner join base_user on student.user_id = base_user.id \n" +
+            "inner join state on state.id = base_user.state_id\n" +
+            "group by state.id, state.name;",nativeQuery = true)
+    List<Object[]> getStudentCountPerState();
+
+
+    @Query(value = "select  count(student.id), city.name from student \n" +
+            "inner join base_user on student.user_id = base_user.id \n" +
+            "inner join city on city.id = base_user.city_id\n" +
+            "group by city.id, city.name;",nativeQuery = true)
+    List<Object[]> getStudentCountPerCity();
 }

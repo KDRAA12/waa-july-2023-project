@@ -17,7 +17,7 @@ import org.modelmapper.PropertyMap;
 import java.util.List;
 
 @Data
-public class BaseUserDTO implements DTO {
+public class BaseUserDTO {
     private long id;
     private String firstName;
     private String lastName;
@@ -25,38 +25,6 @@ public class BaseUserDTO implements DTO {
     private State state;
     private City city;
 
-//    @Override
-//    public ModelMapper updateModelMapper(ModelMapper mapper, MappingUtils utils) {
-//        mapper.addMappings(buildingMap(utils));
-//
-//        return mapper;
-//    }
 
-//    public PropertyMap<BaseUser, BaseUserDTO> buildingMap(MappingUtils utils) {
-//        return new PropertyMap<BaseUser, BaseUserDTO>() {
-//            @Override
-//            protected void configure() {
-//                Converter<BaseUser, Integer> getState = new AbstractConverter<BaseUser, StateResponseDTO>() {
-//                    @Override
-//                    protected Integer convert(BaseUser baseUser) {
-//                        return baseUser.get.size();
-//                    }
-//                };
-//
-//                Converter<List<BaseUser>, List<CityResponseDTO>> mapRooms = new AbstractConverter<List<BaseUser>, List<RoomDTO>>() {
-//                    @Override
-//                    protected List<RoomDTO> convert(BaseUser building) {
-//
-//                        return utils.mapList(new ArrayList<>(building.getRooms()), RoomDTO.class);
-//                    }
-//                };
-//
-//                using(getSize).map(source, destination.getRoomNumber());
-//                using(mapRooms).map(source, destination.getRooms());
-//                map().setCity(source.getCity().getName());
-//
-//            }
-//        };
-//    }
 
 }

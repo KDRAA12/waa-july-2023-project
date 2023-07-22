@@ -47,6 +47,11 @@ public class BaseUserServiceImpl implements BaseUserService {
     }
 
     @Override
+    public BaseUser update(BaseUser user) {
+        return repository.save(user);
+    }
+
+    @Override
     public BaseUser update(Long id, BaseUseRequestrDTO user) {
         City city = cityRepository.findById(user.getCityId()).orElseThrow(() -> new NotFoundException("No city found"));
         State state = stateRepository.findById(user.getStateId()).orElseThrow(() -> new NotFoundException("No state found"));

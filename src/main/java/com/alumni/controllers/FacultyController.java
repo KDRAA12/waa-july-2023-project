@@ -33,7 +33,6 @@ public class FacultyController {
 
     @GetMapping("/{id}")
     public FacultyResponseDTO findById(@PathVariable(name = "id") Long id){
-        System.out.println("findById"+ service.findById(id));
         return service.findById(id);
     }
 
