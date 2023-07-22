@@ -61,10 +61,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         }catch (ExpiredJwtException e){
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//            response.setStatus(HttpStatus.UNAUTHORIZED.value());
 //            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid JWT token");
         }catch (Exception e){
-            System.out.println("error" + e);
+//            System.out.println("error" + e);
 
 //            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid JWT token");
         }
