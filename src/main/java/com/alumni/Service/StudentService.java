@@ -21,7 +21,7 @@ public interface StudentService {
 
      void changePassword(Long id, String password);
 
-    Student findByUserName(String s);
+    Student findByBaseUser(BaseUser s);
 
     void addComment(Long id, Comment comment);
 

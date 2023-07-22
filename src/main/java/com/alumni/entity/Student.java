@@ -1,5 +1,6 @@
 package com.alumni.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,8 +24,9 @@ public class Student {
 //    @JoinColumn(name = "attachment_id")
 //    private Attachment cv;
 
-    @OneToMany(mappedBy = "student")
-    private List<JobApplication> jobApplications;
+//    @OneToMany(mappedBy = "student")
+//    @JsonIgnore
+//    private List<JobApplication> jobApplications;
 
     @Override
     public boolean equals(Object o) {

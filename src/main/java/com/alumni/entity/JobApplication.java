@@ -1,6 +1,7 @@
 package com.alumni.entity;
 
 import com.alumni.entity.enums.JobApplicationStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,6 @@ public class JobApplication {
 
     @ManyToOne
     @JoinColumn(name = "job_advertisment_id")
+    @JsonIgnore
     private JobAdvertisement jobAdvertisement;
 }

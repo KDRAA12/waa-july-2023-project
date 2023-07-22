@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -45,18 +46,16 @@ private final CityRepository cityRepository;
 
 
     @Override
-    public List<StudentResponseDTO> getList(int page, int size, Long stateId, Long cityId, String major, String name) {
+    public List<StudentResponseDTO> getList(int page, int size, String state, String city, String major, String name) {
+    return repository.findAllByUserStateNameContainsIgnoreCaseAndUserCityNameContainsIgnoreCaseAndUserFirstNameContainsIgnoreCaseAndMajorContainsIgnoreCase(state,city,major,name).stream().map((Student student)->modelMapper.map(student,StudentResponseDTO.class)).collect(Collectors.toList());
 
-        State state=stateRepository.findById(stateId).orElseThrow(()->new NotFoundException("State not found"));
-        City city=cityRepository.findById(cityId).orElseThrow(()->new NotFoundException("State not found"));
-
-    return repository.getList(RepositoryUtils.searchFormatter(state.getName()),
-            RepositoryUtils.searchFormatter(city.getName()),
-            RepositoryUtils.searchFormatter(major),
-            RepositoryUtils.searchFormatter(name),
-                    PageRequest.of(page,size)
-                    )
-                    .stream().map((Student student)->modelMapper.map(student,StudentResponseDTO.class)).collect(Collectors.toList());
+//    return repository.getList(Optional.ofNullable(state).orElse(0L),
+//                    Optional.ofNullable(city).orElse(0L),
+//            RepositoryUtils.searchFormatter(major),
+//            RepositoryUtils.searchFormatter(name),
+//                    PageRequest.of(page,size)
+//                    )
+//                    .stream().map((Student student)->modelMapper.map(student,StudentResponseDTO.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -117,9 +116,10 @@ private final CityRepository cityRepository;
     }
 
     @Override
-    public Student findByUserName(String s) {
-        return repository.findByUserEmail(s);
+    public Student findByBaseUser(BaseUser s) {
+        return repository.findByUserId(s.getId());
     }
+
 
     @Override
     public void addComment(Long id, Comment comment) {

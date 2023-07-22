@@ -4,19 +4,20 @@ import com.alumni.Exceptions.NotFoundException;
 import com.alumni.Service.JobApplicationService;
 import com.alumni.Service.JwtService;
 import com.alumni.Service.StudentService;
-import com.alumni.entity.Comment;
-import com.alumni.entity.JobAdvertisement;
-import com.alumni.entity.JobApplication;
-import com.alumni.entity.Student;
+import com.alumni.entity.*;
 import com.alumni.repository.CommentRepository;
 import com.alumni.repository.JobApplicationRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,10 +40,12 @@ public class JobApplicationServiceImpl implements JobApplicationService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public List<JobApplication> getByJob( Long jobId) {
-        return repository.findAllByJobAdvertisementId(jobId).stream()
-                .map((JobApplication jobApplication) -> modelMapper.map(jobApplication, JobApplication.class))
-                .collect(Collectors.toList());
+
+
+
+        return repository.findAll();
     }
 
     @Override
@@ -70,17 +73,20 @@ public class JobApplicationServiceImpl implements JobApplicationService {
 
     @Override
     public void createFromJob(Long id, HttpServletRequest request) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        BaseUser baseUser = (BaseUser)authentication.getPrincipal();
+Student s= studentService.findByBaseUser(baseUser);
+
         JobApplication j= new JobApplication();
+        j.setStudent(s);
         JobAdvertisement jobAdvertisement= new JobAdvertisement();
         jobAdvertisement.setId(id);
 
-        final String authorizationHeader = request.getHeader("Authorization");
-
-        Student student=studentService.findByUserName( jwtService.extractUserName(authorizationHeader));
-        j.setStudent(student);
         j.setJobAdvertisement(jobAdvertisement);
 
-        repository.save(j);
+j=        repository.save(j);
+    System.out.println(j);
     }
 
     @Override
