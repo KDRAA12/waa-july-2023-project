@@ -22,12 +22,12 @@ public class StudentController {
     public List<StudentResponseDTO> getList(
             @RequestParam int page,
             @RequestParam int size,
-            @RequestParam(required = false,defaultValue = "") String state,
-            @RequestParam(required = false,defaultValue = "") String  city,
+            @RequestParam(required = false) Long stateId,
+            @RequestParam(required = false,defaultValue = "") Long  cityId,
             @RequestParam(required = false,defaultValue = "") String  major,
             @RequestParam(required = false,defaultValue = "") String  name
             ){
-        return service.getList(page,size,state, city, major, name);
+        return service.getList(page,size,stateId, cityId, major, name);
 
     }
 
